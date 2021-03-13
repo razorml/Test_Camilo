@@ -5,10 +5,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Cryptography.X509Certificates;
-
+    using Microsoft.EntityFrameworkCore;
     public class EmployeeRepository
     {
+       
         private AppDbContext dbContext;
         public EmployeeRepository(AppDbContext context)
         {
@@ -45,9 +45,9 @@
                 employeeResult = new Employees()
                 {
                     EmployeeId = result.Entity.EmployeeId,
-                    DocumentNum = result.Entity.DocumentNum,
-                    LastName = result.Entity.LastName,
                     Name = result.Entity.Name,
+                    LastName = result.Entity.LastName,
+                    DocumentNum = result.Entity.DocumentNum,
                     Position = result.Entity.Position
                 };
             }
@@ -65,27 +65,34 @@
         /// <returns>IList</returns>
         public Employees UpdateEmployee(Employees employee)
         {
-            var result = this.dbContext.Employees.FirstOrDefault();
-            Employees employeeResult = null;
-            try
+            var result = this.dbContext.Employees.Where(x => x.EmployeeId.Equals(employee.EmployeeId));
+            foreach (Employees item in result)
             {
-                employeeResult = new Employees()
-                {
-                    //LastName = result.Entity.LastName,
-                    //Name = result.Entity.Name,
-                    //Position = result.Entity.Position
-                };
-                this.dbContext.SaveChanges();
+                item.Name = employee.Name;
+                item.LastName = employee.LastName;
+                item.Position = employee.Position;
             }
-            catch 
-            {
+            this.dbContext.SaveChanges();
+            //Employees employeeResult = null;
+            //try
+            //{
+            //    employeeResult = new Employees()
+            //    {
+            //        Name = employee.Name,
+            //        LastName = employee.LastName,
+            //        Position = employee.Position
+            //    };
+            //    this.dbContext.SaveChanges();
+            //}
+            //catch
+            //{
 
-            }            
-            return this.dbContext.Employees.FirstOrDefault();
+            //}
+            return this.dbContext.Employees.FirstOrDefault(x => x.EmployeeId.Equals(employee.EmployeeId));
         }
 
         /// <summary>
-        /// Elimina un emleado
+        /// Elimina un empleado
         /// </summary>
         /// <param name="employeeId">Codigo del empleado</param>
         /// <returns>IList</returns>

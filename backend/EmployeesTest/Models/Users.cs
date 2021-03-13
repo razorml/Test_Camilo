@@ -1,5 +1,6 @@
 ﻿namespace EmployeesTest.Models
 {
+    using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
     public class Users
     {

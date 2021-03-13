@@ -1,16 +1,16 @@
-﻿using EmployeesTest.Context;
-using EmployeesTest.Models;
-using EmployeesTest.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace EmployeesTest.Controllers
+﻿namespace EmployeesTest.Controllers
 {
+    using EmployeesTest.Context;
+    using EmployeesTest.Models;
+    using EmployeesTest.Repositories;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
+
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Employee")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class EmployeeController : ControllerBase
     {
         public EmployeeRepository employee { get; set; }
@@ -36,7 +36,7 @@ namespace EmployeesTest.Controllers
         /// <param name="id">Codigo del empleado</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public ActionResult<IList<Employees>> GetEmployee([FromRoute] int id)
+        public ActionResult<IList<Employees>> GetEmployee(int id)
         {
             var result = employee.GetEmployee(id);
             return new ObjectResult(new { result }) { StatusCode = 200 };
@@ -48,7 +48,7 @@ namespace EmployeesTest.Controllers
         /// <param name="employees">datos del empleado</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<IList<Employees>> CreateEmployee([FromBody] Employees employees)
+        public ActionResult<IList<Employees>> CreateEmployee(Employees employees)
         {
             var result = employee.CreateEmployee(employees);
             return new ObjectResult(new { result }) { StatusCode = 200 };
@@ -78,5 +78,7 @@ namespace EmployeesTest.Controllers
             var result = employee.DeleteEmployee(id);
             return new ObjectResult(new { result }) { StatusCode = 200 };
         }
+
+
     }
 }
