@@ -58,6 +58,47 @@
             return employeeResult;
         }
 
-        
+        /// <summary>
+        /// Actualiza un empleado
+        /// </summary>
+        /// <param name="employeeId">Codigo del empleado</param>
+        /// <returns>IList</returns>
+        public Employees UpdateEmployee(Employees employee)
+        {
+            var result = this.dbContext.Employees.FirstOrDefault();
+            Employees employeeResult = null;
+            try
+            {
+                employeeResult = new Employees()
+                {
+                    //LastName = result.Entity.LastName,
+                    //Name = result.Entity.Name,
+                    //Position = result.Entity.Position
+                };
+                this.dbContext.SaveChanges();
+            }
+            catch 
+            {
+
+            }            
+            return this.dbContext.Employees.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Elimina un emleado
+        /// </summary>
+        /// <param name="employeeId">Codigo del empleado</param>
+        /// <returns>IList</returns>
+        public IList<Employees>DeleteEmployee(int employeeId)
+        {
+            var employeeRemove = this.dbContext.Employees.SingleOrDefault(x => x.EmployeeId == employeeId);
+            if (employeeRemove != null) 
+            {
+                this.dbContext.Employees.Remove(employeeRemove);
+                this.dbContext.SaveChanges();
+            }
+            return this.dbContext.Employees.ToList();
+        }
+
     }
 }
