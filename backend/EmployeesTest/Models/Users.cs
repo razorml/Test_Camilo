@@ -8,7 +8,7 @@
         /// Codigo del empleado
         /// </summary>
         [Key]
-        public int EmployeeId { get; set; }
+        public int UserId { get; set; }
         /// <summary>
         /// Nombre de usuario
         /// </summary>

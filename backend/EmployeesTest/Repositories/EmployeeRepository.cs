@@ -73,21 +73,6 @@
                 item.Position = employee.Position;
             }
             this.dbContext.SaveChanges();
-            //Employees employeeResult = null;
-            //try
-            //{
-            //    employeeResult = new Employees()
-            //    {
-            //        Name = employee.Name,
-            //        LastName = employee.LastName,
-            //        Position = employee.Position
-            //    };
-            //    this.dbContext.SaveChanges();
-            //}
-            //catch
-            //{
-
-            //}
             return this.dbContext.Employees.FirstOrDefault(x => x.EmployeeId.Equals(employee.EmployeeId));
         }
 
